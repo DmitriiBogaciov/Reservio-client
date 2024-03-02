@@ -26,7 +26,4 @@ export default function Home() {
       console.error('Error', error);
     }
   };
-  return (
-    
-  )
 }
