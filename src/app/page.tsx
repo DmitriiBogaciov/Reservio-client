@@ -18,6 +18,7 @@ import { ListProps } from "@/props/List.props";
 import { Fa0 } from "react-icons/fa6";
 import IconListCard from "@/components/IconListCard";
 import { FaWifi } from "react-icons/fa";
+import SearchBar from "@/components/SearchBar";
 
 
 export default function Home() {
@@ -39,6 +40,9 @@ export default function Home() {
   };
   return (
     <div>
+        <div className="flex justify-center">
+          <SearchBar></SearchBar>
+        </div>
       <div className="flex justify-between">
         <div className="mr-10">
           <List props={{ title: "Choose work area where you want to reserve work space:", items: [] }}>
