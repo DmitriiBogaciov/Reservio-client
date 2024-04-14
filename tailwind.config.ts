@@ -15,7 +15,10 @@ const config: Config = {
       },
       colors:
       {
-        "light-greenish":"#D0D3AE"
+        "light-greenish":"#D0D3AE",
+        "greenish":"#8F9646",
+        "light-grayish":"#E3E3E3",
+        "grayish":"#75766C"
       }
     },
   },

@@ -24,9 +24,9 @@ const NavBar = () => {
   const closeTokenModal = () => setTokenModalOpen(false);
 
   return (
-    <div className="nav-container flex justify-between p-2 m-4 rounded-lg bg-gray-400 drop-shadow-sm" data-testid="navbar">
-      <h2 className='pl-10 m-0 mt-2 text-center align-middle font-light drop-shadow-lg'>Reservio</h2>
-      <Navbar light expand="md">
+    <div className="nav-container flex justify-between  p-2 m-4 mt-2 rounded-lg bg-grayish drop-shadow-sm" data-testid="navbar">
+      <h2 className='pl-10 m-0 mt-2 text-center align-middle font-light text-black drop-shadow-lg'>Reservio</h2>
+      <Navbar light className='font-bold' expand="md">
         <Container className='flex justify-evenly'>
           <NavbarToggler onClick={toggle}/>
           <Collapse isOpen={isOpen} navbar>

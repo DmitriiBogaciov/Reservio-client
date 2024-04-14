@@ -14,7 +14,9 @@ function List({props,children}:{props:ListProps, children: JSX.Element[] |  JSX.
     console.log(children)
     return (
         <div>
-            <h1>{props.title}</h1>
+            <div className="p-2 border-black border-b-2">
+                <h3>{props.title}</h3>
+            </div>
             {
                 (children)?
                 children
