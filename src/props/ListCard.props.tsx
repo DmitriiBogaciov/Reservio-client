@@ -5,7 +5,7 @@ interface ListCardProps
     image?:string,
     title:string,
     shortText:string,
+    onClick?:()=>any
 } 
-type ListCardType = (props:ListCardProps) => JSX.Element; 
 
-export type {ListCardProps, ListCardType}
+export type {ListCardProps}

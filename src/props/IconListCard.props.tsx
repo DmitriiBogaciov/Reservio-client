@@ -1,10 +1,11 @@
 import { IconType } from "react-icons"
 import { ListCardProps } from "./ListCard.props"
-interface IconListCardProps extends ListCardProps
-{
-    icons:Array<IconType>
+interface IconListCardProps extends ListCardProps {
+    icons: Array<IconType>
+}
+const IsInstanceOfIconListCard = (object: any): object is IconListCardProps => {
+    return 'icons' in object;
 }
 
-type IconListCardType = (props:IconListCardProps) => JSX.Element; 
 
-export type {IconListCardProps, IconListCardType}
+export {IsInstanceOfIconListCard,  type IconListCardProps }

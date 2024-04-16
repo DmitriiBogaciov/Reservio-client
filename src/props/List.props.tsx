@@ -1,10 +1,10 @@
-import { ListCardProps,ListCardType } from "./ListCard.props"
-import { IconListCardType } from "./IconListCard.props"
+import { IconListCardProps } from "./IconListCard.props"
+import { ListCardProps } from "./ListCard.props"
 
 interface ListProps
 {
     title?:string,
-    items:Array<ListCardType | IconListCardType>
+    items:Array<ListCardProps | IconListCardProps>
 }
 
 

@@ -1,26 +1,28 @@
-import { useEffect, useState } from "react";
-import { FaBeer, FaWifi } from "react-icons/fa";
-import { Fa9 } from "react-icons/fa6";
+
+import { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 import IconListCard from "./IconListCard";
 
 //Props
+import { IsInstanceOfIconListCard } from "@/props/IconListCard.props";
 import { ListProps } from "@/props/List.props";
 
-function List({props,children}:{props:ListProps, children: JSX.Element[] |  JSX.Element}) {
-    const [listProps, setListProps] = useState(props);
+function List(props: ListProps) {
+    const [listProps, setListProps] = useState<ListProps>(props);
 
-
-    console.log(children)
     return (
         <div>
             <div className="p-2 border-black border-b-2">
                 <h3>{props.title}</h3>
             </div>
             {
-                (children)?
-                children
-                :<></>
+                props.items.map((item) => {
+                    if(IsInstanceOfIconListCard(item))
+                        return (
+                            <IconListCard key={uuidv4()} title={item.title} shortText={item.shortText} image={item.image} icons={item.icons} />
+                        )
+                })
             }
 
         </div>
