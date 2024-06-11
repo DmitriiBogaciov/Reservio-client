@@ -4,7 +4,7 @@ import type { Metadata} from 'next'
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import NavBar from '../components/NavBar'
 import './globals.css'
-
+import "react-datepicker/dist/react-datepicker.css";
 
 // export const metadata: Metadata = {
 //   title: 'BookApp',

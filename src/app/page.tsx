@@ -3,6 +3,7 @@
 'use client'
 import axios from "axios"
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 
 const apiUrl = process.env.NEXT_PUBLIC_BABOOX_API;
 
@@ -20,16 +21,19 @@ import { IconListCardProps } from "@/props/IconListCard.props";
 
 
 export default function Home() {
+
+  const{ push } =  useRouter();
+
   const [workAreaCards,setWorkAreaCards] = useState<Array<IconListCardProps>>(
     [
-      {icons:[Fa0],shortText:"Short Text",title:"Title"},
+      {icons:[Fa0],shortText:"Short Text",title:"Title", onClick:()=>{push("/workArea/1");console.log("clicked")}},  
       {icons:[FaWifi],shortText:"Short Text. Short Text. Short Text. Short TextShort Text extShort ,extShort ",title:"This is next Title"},
-      {icons:[FaBeer],shortText:"Short Text. Short Text. Short Text",title:"3rd Title"},
-      {icons:[FaBeer,FaWifi,Fa0],shortText:"Short Text",title:"4th Title"}
-
+      {icons:[FaBeer],shortText:"Short Text. Short Text. Short Text",title:"3rd Title"}, 
+      {icons:[FaBeer,FaWifi,Fa0],shortText:"Short Text",title:"4th Title", onClick:()=>{push("/workArea/4")}}
     ]
   );
   const [searchedWorkAreaCards,setSearchedWorkAreaCards] = useState<Array<IconListCardProps>>(workAreaCards);
+
 
   const fetchToken = async () => {
     try {
@@ -47,6 +51,7 @@ export default function Home() {
   };
 
   const searchBarHandler = (searchedTerm:string) => {
+
     setSearchedWorkAreaCards(workAreaCards.filter((item) => {
       if (item.title.toUpperCase().includes(searchedTerm.toUpperCase()))
            return item;
