@@ -30,8 +30,8 @@ yarn-error.log*
 
 
 
-  // ignore .env files for git
-  ".env*": ["*"],
+// ignore .env files for git
+.env*: ["*"],
 
 # vercel
 .vercel
