@@ -23,20 +23,22 @@ const NavBar = () => {
   const openTokenModal = () => setTokenModalOpen(true);
   const closeTokenModal = () => setTokenModalOpen(false);
   useEffect(() => {
-      console.log(user);
-  },[user])
+    console.log(user);
+  }, [user])
   return (
     <div className="nav-container flex justify-between  p-2 m-4 mt-2 rounded-lg bg-grayish drop-shadow-sm" data-testid="navbar">
       <h2 className='pl-10 m-0 mt-2 text-center align-middle font-light text-black drop-shadow-lg'>Reservio</h2>
       <Navbar light className='font-bold' expand="md">
         <Container className='flex justify-evenly'>
-          <NavbarToggler onClick={toggle}/>
+          <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
               <NavItem>
                 <a href="/" className="nav-link">
                   Home
                 </a>
+              </NavItem>
+              {/*
               </NavItem>
               {user && (
                 <NavItem>
@@ -53,7 +55,6 @@ const NavBar = () => {
                 </NavItem>
               )}
             </Nav>
-            {/*Navbar-login-desktop*/}
             <Nav className="d-none d-md-block" navbar>
               {!isLoading && !user && (
                 <NavItem id="qsLoginBtn">
@@ -65,7 +66,6 @@ const NavBar = () => {
               {user && (
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={user.picture}
                       alt="Profile"
@@ -87,7 +87,6 @@ const NavBar = () => {
                 </UncontrolledDropdown>
               )}
             </Nav>
-            {/*Navbar-login-mobile*/}
             {!isLoading && !user && (
               <Nav className="d-md-none" navbar>
                 <a href="/api/auth/login">
@@ -99,7 +98,6 @@ const NavBar = () => {
               <Nav className="d-md-none justify-content-between" navbar>
                 <NavItem>
                             <span className="user-info">
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img
                                 src={user.picture}
                                 alt="Profile"
@@ -117,8 +115,10 @@ const NavBar = () => {
                     Log out
                   </a>
                 </NavItem>
-              </Nav>
+              
             )}
+          */}
+            </Nav>
           </Collapse>
         </Container>
       </Navbar>

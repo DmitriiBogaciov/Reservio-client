@@ -68,32 +68,31 @@ const TimePicker = (props: TimePickerProps) => {
         console.log(props.highlightedTimes)
 
         if (props.highlightedTimes) {
-            for (let i in props.highlightedTimes) {
-                if (Array.isArray(props.highlightedTimes[i])) {
-                    if (props.highlightedTimes[i][0] && props.highlightedTimes[i][1]) {
-                        let startDate: Date = props.highlightedTimes[i][0];
-                        let endDate: Date = props.highlightedTimes[i][1];
+            for (const highlightedTime of props.highlightedTimes) {
+                if (Array.isArray(highlightedTime)) {
+                    if (highlightedTime[0] && highlightedTime[1]) {
+                        const [startDate, endDate] = highlightedTime;
                         setHighlightedTime(startDate, endDate);
                     }
                 } else {
-                    setHighlightedTime(props.highlightedTimes[i]);
+                    setHighlightedTime(highlightedTime);
+                }
+            }
+        }
+        if (props.deactivatedTimes) {
+            for (const deactivatedTime of props.deactivatedTimes) {
+                if (Array.isArray(deactivatedTime)) {
+                    if (deactivatedTime[0] && deactivatedTime[1]) {
+                        const [startDate, endDate] = deactivatedTime;
+                        setDeactivatedTime(startDate, endDate);
+                    }
+                } else {
+                    setDeactivatedTime(deactivatedTime);
                 }
             }
         }
 
-        if (props.deactivatedTimes) {
-            for (let i in props.deactivatedTimes) {
-                if (Array.isArray(props.deactivatedTimes[i])) {
-                    if (props.deactivatedTimes[i][0] && props.deactivatedTimes[i][1]) {
-                        let startDate: Date = props.deactivatedTimes[i][0];
-                        let endDate: Date = props.deactivatedTimes[i][1];
-                        setDeactivatedTime(startDate, endDate);
-                    }
-                } else {
-                    setDeactivatedTime(props.deactivatedTimes[i]);
-                }
-            }
-        }
+        
     }, [props.minuteInterval, props.highlightedTimes, props.deactivatedTimes]);
 
     useEffect(() => {
