@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Nav,
@@ -22,7 +22,9 @@ const NavBar = () => {
 
   const openTokenModal = () => setTokenModalOpen(true);
   const closeTokenModal = () => setTokenModalOpen(false);
-
+  useEffect(() => {
+      console.log(user);
+  },[user])
   return (
     <div className="nav-container flex justify-between  p-2 m-4 mt-2 rounded-lg bg-grayish drop-shadow-sm" data-testid="navbar">
       <h2 className='pl-10 m-0 mt-2 text-center align-middle font-light text-black drop-shadow-lg'>Reservio</h2>
@@ -36,6 +38,14 @@ const NavBar = () => {
                   Home
                 </a>
               </NavItem>
+              {user && (
+                <NavItem>
+                <a href="/reservation" className="nav-link">
+                  My reservations
+                </a>
+              </NavItem>
+              )
+              }
               {user && (
                 <NavItem>
                   <button onClick={openTokenModal} className="nav-link">ShowToken</button>

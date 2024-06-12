@@ -8,12 +8,12 @@ const TokenModal = ({ isOpen, onClose }) => {
 
   const fetchToken = async () => {
     try {
-      const response = await fetch('api/shows');
+      const response = await fetch('/api/shows');
       if (response.ok) {
         const data = await response.json();
         setToken(data.accessToken);
       } else {
-        console.log('Error of fetching token');
+        console.error('Error of fetching token');
       }
     } catch (error) {
       console.error('Error', error);
