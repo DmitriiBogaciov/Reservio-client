@@ -41,6 +41,7 @@ const TimePicker = (props: TimePickerProps) => {
     }, []);
 
     const setDeactivatedTime = useCallback((startDeactivatedTime: Date, endDeactivatedTime?: Date) => {
+        console.log(startDeactivatedTime, endDeactivatedTime)
         setTimes(prevTimes =>
             prevTimes.map((time) => {
                 let newTime = { ...time }; // Clone the time object to avoid direct mutation
@@ -61,6 +62,9 @@ const TimePicker = (props: TimePickerProps) => {
     }, []);
 
     useEffect(() => {
+        if(props.selectedTime){
+            setSelectedTime(props.selectedTime);
+        }
         if (props.minuteInterval > 0) {
             const newTimes = setUpTime(props.minuteInterval);
             setTimes(newTimes);
@@ -93,7 +97,7 @@ const TimePicker = (props: TimePickerProps) => {
         }
 
         
-    }, [props.minuteInterval, props.highlightedTimes, props.deactivatedTimes]);
+    }, [props.minuteInterval, props.highlightedTimes, props.deactivatedTimes, props.selectedTime]);
 
     useEffect(() => {
         if (selectedTime)
@@ -106,8 +110,6 @@ const TimePicker = (props: TimePickerProps) => {
     }, [selectedTime]);
 
     const onClickTimeHandler = (time: TimeProps) => {
-        setSelectedTime(time.time);
-
         setTimes(prevTimes =>
             prevTimes.map((t) => ({
                 ...t,
@@ -115,9 +117,7 @@ const TimePicker = (props: TimePickerProps) => {
             }))
         );
 
-        if (props.onSelectedTimeHandler) {
-            props.onSelectedTimeHandler(time.time);
-        }
+        props.onChange && props.onChange(time.time);
     };
 
 

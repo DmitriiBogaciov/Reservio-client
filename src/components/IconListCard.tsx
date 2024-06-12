@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 //Props
 import { IconListCardProps } from "@/props/IconListCard.props";
-import { FaBeer } from "react-icons/fa";
+
 
 /**
  * IconListCard component

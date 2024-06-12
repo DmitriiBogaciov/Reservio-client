@@ -1,16 +1,12 @@
 //Custom props
 import { TextCardProps } from "@/props/TextCard.props";
+import { ReactNode } from "react";
 
-const TextCard = (props: TextCardProps) => {
+const TextCard = ({children}:{children: ReactNode}) => {
 
     return (
         <div className="shadow-md p-4 rounded-xl bg-light-greenish">
-            {(props.title) ? <h3>{props.title}</h3> : null}
-            <div>
-                <p>
-                    {props.content}
-                </p>
-            </div>
+            {children}
         </div>
     )
 }

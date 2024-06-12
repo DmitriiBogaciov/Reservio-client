@@ -20,22 +20,27 @@ const NavBar = () => {
   const toggle = () => setIsOpen(!isOpen)
   const [tokenModalOpen, setTokenModalOpen] = useState(false);
 
-  const openTokenModal = () => setTokenModalOpen(true);
-  const closeTokenModal = () => setTokenModalOpen(false);
+  // const openTokenModal = () => setTokenModalOpen(true);
+  // const closeTokenModal = () => setTokenModalOpen(false);
   useEffect(() => {
     console.log(user);
   }, [user])
   return (
-    <div className="nav-container flex justify-between  p-2 m-4 mt-2 rounded-lg bg-grayish drop-shadow-sm" data-testid="navbar">
-      <h2 className='pl-10 m-0 mt-2 text-center align-middle font-light text-black drop-shadow-lg'>Reservio</h2>
-      <Navbar light className='font-bold' expand="md">
+    <div className="nav-container flex justify-between  p-2 m-4 mt-2 rounded-lg bg-grayish drop-shadow-sm " data-testid="navbar">
+      <a href='/' className="text-decoration-none"><h2 className='pl-10 m-0 mt-2 text-center align-middle font-light drop-shadow-lg  text-white'>Reservio</h2></a>
+      <Navbar className='font-bold text-white-important' expand="md">
         <Container className='flex justify-evenly'>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
               <NavItem>
-                <a href="/" className="nav-link">
+                <a href="/" className="nav-link text-white">
                   Home
+                </a>
+              </NavItem>
+              <NavItem>
+                <a href="/reservation" className="nav-link  text-white">
+                  Reservations
                 </a>
               </NavItem>
               {/*
