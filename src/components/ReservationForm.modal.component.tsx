@@ -12,7 +12,7 @@ function ReservationFormModal(props: ReservationFormModalProps) {
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
     const [startTime, setStartTime] = useState<Date | null>(null);
-    const [deactivatedStartTimes, setDeactivatedStartTimes] = useState<Date | Date[] | null>(null);
+    const [deactivatedStartTimes, setDeactivatedStartTimes] = useState<Array<Date | Date[]>>([]);
     const [endTime, setEndTime] = useState<Date | null>(null);
     const [deactivatedEndTimes, setDeactivatedEndTimes] = useState<(Date | Date[])[]>([]);
 
@@ -114,7 +114,7 @@ function ReservationFormModal(props: ReservationFormModalProps) {
                                     <DatePicker
                                         showIcon
                                         selected={startDate}
-                                        onChange={handleStartDateChange}
+                                        onChange={(date)=>(date)?handleStartDateChange(date):null}
                                     />
                                     <TimePicker
                                         deactivatedTimes={deactivatedStartTimes}
@@ -127,7 +127,7 @@ function ReservationFormModal(props: ReservationFormModalProps) {
                                     <DatePicker
                                         showIcon
                                         selected={endDate}
-                                        onChange={handleEndDateChange}
+                                        onChange={(date)=>(date)?handleEndDateChange(date):null}
                                     />
                                     <TimePicker
                                         minuteInterval={30}
