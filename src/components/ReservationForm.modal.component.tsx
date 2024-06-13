@@ -49,7 +49,11 @@ function ReservationFormModal(props: ReservationFormModalProps) {
         }
 
         if (startDate && startDate.getDate() == now.getDate())
-            setDeactivatedStartTimes([[new Date('2024-06-15T00:00'), now]]);
+            {
+                
+                setDeactivatedStartTimes([[new Date('2024-06-15T00:00'), now]]);
+                
+            }
 
         if (endDate && endDate.getDate() == now.getDate()) {
             newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), now]);
