@@ -35,8 +35,8 @@ export default function WorkAreaDetail(params: any) {
     try {
 
       data.endTime.setMinutes(data.endTime.getMinutes() - 1);
-      data.endTime.setHours(data.endTime.getHours() + 2);
-      data.startTime.setHours(data.startTime.getHours() + 2);
+      data.endTime.setHours(data.endTime.getHours() - 2);
+      data.startTime.setHours(data.startTime.getHours() - 2);
 
       const response = await fetch(`${apiUrl}/reservation/create`, {
         method: 'POST',
