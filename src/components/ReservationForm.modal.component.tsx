@@ -7,7 +7,6 @@ import TimePicker from "@/components/TimePicker";
 import { LoadingStateProps } from "@/props/LoadingState.props";
 import { ReservationFormModalProps } from "@/props/ReservationFormModal.props";
 import { toast } from "react-toastify";
-import { start } from "repl";
 
 
 const apiUrl = process.env.NEXT_PUBLIC_RESERVIO_API;
@@ -30,7 +29,7 @@ function ReservationFormModal(props: ReservationFormModalProps) {
 
 
     useEffect(() => {
-        let newDeactivatedEndTimes: (Date | Date[])[] = [];
+        let newDeactivatedEndTimes = [];
         setDeactivatedEndTimes([]);
         setDeactivatedStartTimes([]);
         if (startTime && endTime && startTime.getTime() < endTime.getTime())
@@ -39,31 +38,31 @@ function ReservationFormModal(props: ReservationFormModalProps) {
         let now = new Date();
 
         //Disabling past dates
-        if (startDate && startDate.getDate() < now.getDate() && startDate.getMonth() == now.getMonth() && startDate.getFullYear() == now.getFullYear()) {
+        if (startDate && startDate.getDate() < now.getDate()) {
             newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]);
             //setDeactivatedStartTimes([[new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]]);
         }
 
-        if (endDate && endDate.getTime() < now.getTime()) {
+        if (endDate && endDate.getDate() < now.getDate()) {
             newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]);
             //setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]]);
         }
 
-        if (startDate && startDate.getDate() == now.getDate() && startDate.getMonth() == now.getMonth() && startDate.getFullYear() == now.getFullYear())
+        if (startDate && startDate.getDate() == now.getDate())
             setDeactivatedStartTimes([[new Date('2024-06-15T00:00'), now]]);
 
-        if (endDate && endDate.getDate() == now.getDate() && endDate.getMonth() == now.getMonth() && endDate.getFullYear() == now.getFullYear()){
+        if (endDate && endDate.getDate() == now.getDate()) {
             newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), now]);
             //setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), now]]);
         }
 
 
         //deactivating to not allow end date before start date
-        if (startTime && endDate?.getDate() == startDate?.getDate() && endDate?.getMonth() == startDate?.getMonth() && endDate?.getFullYear() == startDate?.getFullYear()) {
+        if (startTime && endDate?.getDate() == startDate?.getDate()) {
             newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), startTime]);
             //setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), startTime]]);
         }
-        else if (endDate && startDate && endDate?.getTime() < startDate?.getTime()) {
+        else if (endDate && startDate && endDate?.getDate() < startDate?.getDate()) {
             setEndTime(undefined);
             newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]);
             //setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]]);
@@ -141,6 +140,9 @@ function ReservationFormModal(props: ReservationFormModalProps) {
             const response = await fetch(`${apiUrl}/reservation/findAll`,
                 {
                     method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',  
+                    },
                     body: JSON.stringify({
                         filter: {
                             placeId: workSpaceId
@@ -253,7 +255,7 @@ function ReservationFormModal(props: ReservationFormModalProps) {
             toast.error("Start date must be before end date");
             result = false;
         }
-        if (startTime && endTime && startTime.getTime() >= endTime.getTime()) {
+        if (startTime && endTime && startTime.getTime() >= endTime.getTime() ) {
             toast.error("Start time must be before end time");
             result = false;
         }

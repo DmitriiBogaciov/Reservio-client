@@ -92,6 +92,9 @@ export default function WorkAreaDetail(params: any) {
         const response = await fetch(`${apiUrl}/workspace/findAll`,
           {
             method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
               filter: {
                 placeId: params.params.id
@@ -172,11 +175,6 @@ export default function WorkAreaDetail(params: any) {
                   <div>{workPlace.address}</div>
                 </div>
 
-
-                <div>
-                  <p>{workPlace.description}</p>
-                  <h3>Number of reservable spaces: {workSpaces.length}</h3>
-                </div>
               </div>
             </TextCard>
             <div className="mt-4">
@@ -193,7 +191,7 @@ export default function WorkAreaDetail(params: any) {
                       Reservation was created. Your reservation password:<span className="font-bold">{reservationPassword}</span>.
                     </p>
                     <p>
-                      You can use this password to activate your reservation. More detail on the <Link href="/reservation">help page</Link>.
+                      You have to use this password to activate your reservation. More detail on the <Link href="/reservation">here</Link>.
                     </p>
                   </ModalBody>
                   <ModalFooter>

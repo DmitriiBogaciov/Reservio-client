@@ -127,10 +127,10 @@ export default function Home() {
       <div className="mt-5">
         <TextCard>
           <h1>Reservio: Revolutionizing Workspace Reservations</h1>
-          <p>In today’s fast-paced, increasingly digital world, efficient time management and space utilization have become critical to both personal productivity and business success. One tool that has emerged as a game-changer in this realm is Reservio, an intuitive reservation system designed to streamline bookings and manage spaces effectively. Whether you are a freelancer in need of a quiet workspace or a large corporation looking to optimize meeting room usage, Reservio offers a robust solution tailored to your needs.</p>
+          <p>In our fast-paced, digital world, effective time and space management are crucial for productivity and business success. Reservio, an intuitive reservation system, simplifies bookings and space management, catering to freelancers and large corporations alike.</p>
 
           <h2>What is Reservio?</h2>
-          <p>Reservio is an advanced online booking and scheduling platform that caters to a variety of industries. It is designed to help businesses manage appointments, reservations, and bookings with ease. From beauty salons and fitness centers to coworking spaces and corporate offices, Reservio simplifies the reservation process, allowing users to focus on what truly matters—providing excellent service and growing their business.</p>
+          <p>Reservio is an advanced online booking and scheduling platform serving various industries. It helps businesses manage appointments and reservations effortlessly, from beauty salons and fitness centers to coworking spaces and corporate offices.6</p>
 
         </TextCard>
         <TextCard>

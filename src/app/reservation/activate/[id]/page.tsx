@@ -20,7 +20,9 @@ export default function Page({ params }: { params: { id: string } }) {
     useEffect(() => {
         const fetchWorkSpace = async () => {
             try {
-                const response = await axios.post(`${apiUrl}/workspace/findOne/${params.id}`);
+                const response = await axios.get(`${apiUrl}/workspace/findOne/${params.id}`,
+          
+                );
                 const data = response.data;
                 if (data && data.result) {
                     setWorkSpace(data.result);

@@ -100,11 +100,11 @@ export default function Page() {
           }}>
             <div className="flex justify-center">
               <label className="p-2 ml-2">Email: </label>
-              <input className="p-2 rounded-lg focus:outline-none" value={email} onChange={(event) => setEmail(event.target.value)} type="email" placeholder="Enter your email" />
+              <input className="p-2 text-white rounded-2xl bg-grayish w-[150px] focus:outline-none" value={email} onChange={(event) => setEmail(event.target.value)} type="email" placeholder="Enter your email" />
             </div>
             <div className="flex justify-center mt-4">
               <label className="p-2 ml-2">Reservation code:</label>
-              <input className="p-2 rounded-lg focus:outline-none" value={activationCode} onChange={(event) => setActivationCode(event.target.value)} type="text  " placeholder="Enter your password" />
+              <input className="p-2 text-white rounded-2xl bg-grayish w-[150px] focus:outline-none" value={activationCode} onChange={(event) => setActivationCode(event.target.value)} type="text  " placeholder="Enter your password" />
             </div>
             <div className="flex justify-center  mt-4">
               <button className="bg-grayish p-2 shadow-md rounded-md" type="submit">Submit</button>
@@ -112,15 +112,14 @@ export default function Page() {
           </form>
         </TextCard>
         <Modal isOpen={reservation !== undefined} onClose={() => setReservation(undefined)}>
-
           <div className="p-4">
             <h3>Reservation details</h3>
-            <p>Workspace name: {reservation?.name}</p>
-            <p>Reservation code: {reservation?.password}</p>
-            <p>Start date: {reservation?.startTime ? new Date(reservation?.startTime).toLocaleString() : "-"}</p>
-            <p>End date: {reservation?.endTime ? new Date(reservation?.endTime).toLocaleString() : "-"}</p>
-            <p>Workspace name: {reservation?.workspace}</p>
-            <p>User: {reservation?.user}</p>
+            <p>Workspace name: <span className="font-bold">{reservation?.name}</span></p>
+            <p>Reservation code: <span>{reservation?.password}</span></p>
+            <p>Start date:<span className="font-bold">{reservation?.startTime ? new Date(reservation?.startTime).toLocaleString() : "-"}</span> </p>
+            <p>End date:<span className="font-bold">{reservation?.endTime ? new Date(reservation?.endTime).toLocaleString() : "-"}</span> </p>
+            <p>Workspace name:<span className="font-bold">{reservation?.workspace} </span></p>
+            <p>User: <span className="font-bold">{reservation?.user}</span> </p>
           </div>
           <ModalFooter>
             <Button onClick={() => setReservation(undefined)} color="secondary">Close</Button>

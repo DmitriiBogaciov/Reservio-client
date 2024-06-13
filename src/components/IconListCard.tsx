@@ -42,7 +42,7 @@ const IconListCard = (props: IconListCardProps) => {
                 </div>
                 {
                     (props.onClick)?
-                        <a className="text-sm mt-2">Click to see more</a> : <></>
+                        <a className="text-sm mt-2 text-white">Click to see more</a> : <></>
                 }
                 <div className="flex justify-evenly mt-4">
                     {
