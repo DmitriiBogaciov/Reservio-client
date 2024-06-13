@@ -21,10 +21,14 @@ const IconListCard = (props: IconListCardProps) => {
             + (props.onClick ? " cursor-pointer" : "")
         } onClick={props.onClick}>
             <div className="mt-auto mb-auto flex justify-center bg-slate-400 rounded-full min-w-[120px] min-h-[120px] max-w-[120px] max-h-[120px]">
-                <div className="m-auto">Image</div>
+                {
+                    (props.image)?
+                        <img className="rounded-full" src={props.image} alt={props.title} /> :
+                        <div className="m-auto">Image</div>
+                }
             </div>
             <div className="p-2 ml-10 grid grid-cols-1 w-[100%]">
-                <div className="text-lg uppercase">{props.title}</div>
+                <div className="text-lg uppercase font-bold border-b-2 border-black mb-2">{props.title}</div>
                 <div>
                     <p className="break-words">
                         {// If short text is too long, break it into words
@@ -36,6 +40,10 @@ const IconListCard = (props: IconListCardProps) => {
                             <span>...</span> : <></>}
                     </p>
                 </div>
+                {
+                    (props.onClick)?
+                        <a className="text-sm mt-2">Click to see more</a> : <></>
+                }
                 <div className="flex justify-evenly mt-4">
                     {
                         // Render icons

@@ -19,15 +19,23 @@ function List(props: ListProps) {
     const [listProps, setListProps] = useState<ListProps>(props);
 
     return (
-        <div>
+        <div className="max-h-[450px] overflow-y-auto">
             {/* Render the list title */}
-            <div className="p-2 border-black border-b-2">
-                <h3>{props.title}</h3>
-            </div>
+            {(props.title) &&
+                <div className="p-2 border-black border-b-2">
+                    <h3>{props.title}</h3>
+                </div>
+            }
+            {/* Check if the list is empty */}
+            {props.items.length === 0 &&
+                <div className="p-2">
+                    {props.emptyText}
+                </div>
+            }
             {/* Map through the items and render IconListCard component for each item */}
             {props.items.map((item) => {
                 // Check if the item is an IconListCardProps
-                if(IsInstanceOfIconListCard(item)) {
+                if (IsInstanceOfIconListCard(item)) {
                     // Render the IconListCard component with the item's properties
                     return (
                         <IconListCard

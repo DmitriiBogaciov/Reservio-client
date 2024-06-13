@@ -2,7 +2,7 @@
 
 import type { Metadata} from 'next'
 import { UserProvider } from '@auth0/nextjs-auth0/client';
-import NavBar from '../components/NavBar'
+import NavBarComponent from '../components/NavBar'
 import './globals.css'
 import "react-datepicker/dist/react-datepicker.css";
 import { ToastContainer, toast } from 'react-toastify';
@@ -28,8 +28,8 @@ export default function RootLayout({
       <body>
         <UserProvider>
           <ToastContainer></ToastContainer>
-          <NavBar />
-          <main className='container'>
+          <NavBarComponent />
+          <main className='custom-container'>
           {children}
           </main>
         </UserProvider>

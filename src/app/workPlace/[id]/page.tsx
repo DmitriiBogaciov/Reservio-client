@@ -11,6 +11,10 @@ import ErrorComponent from "@/components/Error.component";
 import WorkSpaceDataProps from "@/props/data/WorkSpace.dataprops";
 import { LoadingStateProps } from "@/props/LoadingState.props";
 import { toast } from "react-toastify";
+import { FaBeer, FaHamburger, FaParking, FaWifi } from "react-icons/fa";
+import TextCard from "@/components/TextCard";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import Link from "next/link";
 
 const apiUrl = process.env.NEXT_PUBLIC_RESERVIO_API;
 
@@ -20,13 +24,20 @@ export default function WorkAreaDetail(params: any) {
 
   const [loadingState, setLoadingState] = useState<LoadingStateProps>("pending");
 
+  const [reservationPassword, setReservationPassword] = useState<string>("");
+  const [isReservationPasswordModalOpen, setIsReservationPasswordModalOpen] = useState<boolean>(false);
+
+  const toggleReservationPasswordModal = () => {
+    setIsReservationPasswordModalOpen(!isReservationPasswordModalOpen);
+  };
+
   const onReservationSubmitHandler = async (data: ReservationDataProps) => {
     try {
 
-      data.endTime.setMinutes(data.endTime.getMinutes() -1);
-      data.endTime.setHours(data.endTime.getHours() +2);
-      data.startTime.setHours(data.startTime.getHours() +2);
-      
+      data.endTime.setMinutes(data.endTime.getMinutes() - 1);
+      data.endTime.setHours(data.endTime.getHours() + 2);
+      data.startTime.setHours(data.startTime.getHours() + 2);
+
       const response = await fetch(`${apiUrl}/reservation/create`, {
         method: 'POST',
         headers: {
@@ -36,6 +47,17 @@ export default function WorkAreaDetail(params: any) {
       });
       const reservation = await response.json();
       console.log(reservation);
+      if (!reservation || !reservation.result || !reservation.result.password) {
+        if (reservation.message)
+          toast.error(reservation.message);
+        else
+          toast.error("Something went wrong.");
+        throw Error("Error creating reservation");
+      }
+
+      toast.success("Reservation created successfully");
+      setReservationPassword(reservation.result.password);
+      toggleReservationPasswordModal();
     } catch (error: Error | any) {
       console.log(error);
       throw Error(error);
@@ -72,8 +94,8 @@ export default function WorkAreaDetail(params: any) {
             method: 'POST',
             body: JSON.stringify({
               filter: {
-                placeId:params.params.id
-                }
+                placeId: params.params.id
+              }
             })
           }
         );
@@ -102,21 +124,89 @@ export default function WorkAreaDetail(params: any) {
             <>Error getting work place details.</>
           </ErrorComponent> :
           <>
-            <h1>Detail: {workPlace.name}</h1>
-            <h3>Number of reservable spaces: {workSpaces.length}</h3>
-            <div className="w-[200px]">
-              <FeatureIconsComponent features={workPlace.features}></FeatureIconsComponent>
+            <TextCard>
+              <div className=" ">
+                <div className="pb-4 mb-4 border-b-2 border-black">
+                  <div className="md:flex block justify-between">
+                    <div className="flex  mt-auto mb-auto">
+                      <img className="md:max-w-[100px] max-w-[75px] md:h-[100px] h-[75px] rounded-full" src={
+                        workPlace.category === "restaurant" ? "/building-restaurant.png" :
+                          workPlace.category === "office" ? "/building-office.png" :
+                            workPlace.category === "factory" ? "/building-factory.png" :
+                              "/building-shop.png"
+                      } />
+                      <div className="md:m-auto mt-auto mb-auto pl-4">
+                        <h1>{workPlace.name}</h1>
+                      </div>
+
+                    </div>
+                    <ul className="list-disc p-0 md:mt-0 mt-4">
+                      {
+                        workPlace.features && workPlace.features.map((feature, index) => {
+                          switch (feature) {
+                            case "wifi":
+                              return (
+                                <li className="flex">
+                                  <FaWifi></FaWifi>.....{feature === "wifi" ? "Place posisses wifi." : ""}
+                                </li>
+                              )
+                            case "drink":
+                              return (<li className="flex"> <FaBeer></FaBeer>.....{feature === "drink" ? "Place offers drink." : ""}</li>)
+                            case "parking":
+                              return (
+                                <li className="flex">
+                                  <FaParking></FaParking>.....{feature === "parking" ? "Nearby parking." : ""}
+                                </li>
+                              )
+                            case "food":
+                              return (
+                                <li className="flex">
+                                  <FaHamburger></FaHamburger>.....{feature === "food" ? "Place offers food." : ""}
+                                </li>
+                              )
+                          }
+                        })
+                      }
+                    </ul>
+                  </div>
+                  <div>{workPlace.address}</div>
+                </div>
+
+
+                <div>
+                  <p>{workPlace.description}</p>
+                  <h3>Number of reservable spaces: {workSpaces.length}</h3>
+                </div>
+              </div>
+            </TextCard>
+            <div className="mt-4">
+              <TextCard>
+                <h3>Want to create reservation for this work place?</h3>
+                <p>Click button bellow to create one.</p>
+                <div className="flex justify-center">
+                  <ReservationFormModal title="Reservation" workSpacesData={workSpaces} onReservationSubmit={onReservationSubmitHandler} maxReservedHours={2}></ReservationFormModal>
+                </div>
+                {isReservationPasswordModalOpen && <Modal isOpen={isReservationPasswordModalOpen} toggle={toggleReservationPasswordModal}>
+                  <ModalHeader>Reservation created</ModalHeader>
+                  <ModalBody>
+                    <p>
+                      Reservation was created. Your reservation password:<span className="font-bold">{reservationPassword}</span>.
+                    </p>
+                    <p>
+                      You can use this password to activate your reservation. More detail on the <Link href="/reservation">help page</Link>.
+                    </p>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="primary" onClick={toggleReservationPasswordModal}>Close</Button>
+                  </ModalFooter>
+                </Modal>}
+              </TextCard>
             </div>
-            <p>{workPlace.description}</p>
-            <p>Make a reservation:</p>
-            <ReservationFormModal title="Reservation" workSpacesData={workSpaces} onReservationSubmit={onReservationSubmitHandler}></ReservationFormModal>
+
           </>
       }
-      {/* <Auth0VerifyMiddleware>
-        <Auth0ErrorComponent>
-          <div>Sorry. Cannot make reservation if you are not logged in</div>
-        </Auth0ErrorComponent>
-      </Auth0VerifyMiddleware> */}
     </div>
-  );
+  )
 }
+
+

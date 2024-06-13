@@ -5,6 +5,7 @@ interface ReservationFormModalProps
     title:string,
     reservationData?:ReservationDataProps,
     workSpacesData?:Array<WorkSpaceDataProps>,
+    maxReservedHours?:number,
     onReservationSubmit?: (data:ReservationDataProps) => void,
     onReservationCancel?: () => void
 }

@@ -38,10 +38,9 @@ const TimePicker = (props: TimePickerProps) => {
                 return newTime;
             })
         );
-    }, []);
+    }, [props.minuteInterval]);
 
     const setDeactivatedTime = useCallback((startDeactivatedTime: Date, endDeactivatedTime?: Date) => {
-        console.log(startDeactivatedTime, endDeactivatedTime)
         setTimes(prevTimes =>
             prevTimes.map((time) => {
                 let newTime = { ...time }; // Clone the time object to avoid direct mutation
@@ -59,7 +58,7 @@ const TimePicker = (props: TimePickerProps) => {
                 return newTime;
             })
         );
-    }, []);
+    }, [props.minuteInterval]);
 
     useEffect(() => {
         if(props.selectedTime){
@@ -97,7 +96,7 @@ const TimePicker = (props: TimePickerProps) => {
         }
 
         
-    }, [props.minuteInterval, props.highlightedTimes, props.deactivatedTimes, props.selectedTime]);
+    }, [props.minuteInterval, props.highlightedTimes, props.deactivatedTimes, props.selectedTime, setHighlightedTime, setDeactivatedTime]);
 
     useEffect(() => {
         if (selectedTime)
@@ -124,13 +123,11 @@ const TimePicker = (props: TimePickerProps) => {
 
     return (
         <div className="max-h-[300px] overflow-y-scroll">
-            <h3>Select Reservation Date and Time</h3>
-
             <div className={"grid grid-cols-2"}>
                 {times.map((time, index) => (
                     <div
                         key={index}
-                        className={`time-slot p-3 m-2 transition-[250ms] select-none scale-[1.05] ${(selectedTime?.getHours() === time.time.getHours() &&
+                        className={`time-slot p-3 m-2 transition-[250ms] select-none scale-[1.05] rounded-lg ${(selectedTime?.getHours() === time.time.getHours() &&
                             selectedTime?.getMinutes() === time.time.getMinutes())
                             ? 'bg-green-500'
                             : ' bg-slate-300'

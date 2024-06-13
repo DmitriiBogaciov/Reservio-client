@@ -32,7 +32,7 @@ const ToggleList = ({ title, list_items, is_open }: { title: string, list_items:
                         <h3 className="text-left font-bold text-xl">{title}</h3>
                     </div>
                     <div className={(isOpen) ? "drop-down-effect relative z-0" : "hidden"}>
-                        <ul className="">
+                        <ul className="p-0">
                             {
                                 listItems.map((item, i) => {
                                     return (

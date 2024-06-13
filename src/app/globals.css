@@ -41,5 +41,40 @@ body
 .highlighted-date {
   background-color: #ffeb3b !important; /* Highlight color */
   color: #000 !important; /* Text color */
+} 
+
+.custom-container {
+  width: 85%;
+  margin: 0 auto;
 }
 
+
+@media screen and (max-width: 410px) {
+  .custom-container {
+    width: 95%;
+  }
+}
+
+
+/*Special dropdown effect*/
+
+.drop-down-effect {
+  animation-duration: 100ms;
+  animation-name: drop-down-animation;
+}
+
+@keyframes drop-down-animation {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+
+  90%
+  {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}

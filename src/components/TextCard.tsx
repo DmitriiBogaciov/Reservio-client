@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 const TextCard = ({children}:{children: ReactNode}) => {
 
     return (
-        <div className="shadow-md p-4 rounded-xl bg-light-greenish">
+        <div className="shadow-md md:p-4 p-2 rounded-xl bg-light-greenish">
             {children}
         </div>
     )

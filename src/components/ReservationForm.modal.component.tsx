@@ -18,8 +18,8 @@ function ReservationFormModal(props: ReservationFormModalProps) {
 
 
 
-    const [startDate, setStartDate] = useState<Date>(new Date());
-    const [endDate, setEndDate] = useState<Date>(new Date());
+    const [startDate, setStartDate] = useState<Date | undefined>(new Date());
+    const [endDate, setEndDate] = useState<Date | undefined>(new Date());
     const [startTime, setStartTime] = useState<Date>();
     const [deactivatedStartTimes, setDeactivatedStartTimes] = useState<Array<Date | Date[]>>([]);
     const [endTime, setEndTime] = useState<Date>();
@@ -29,32 +29,66 @@ function ReservationFormModal(props: ReservationFormModalProps) {
 
 
     useEffect(() => {
+        let newDeactivatedEndTimes = [];
         setDeactivatedEndTimes([]);
         setDeactivatedStartTimes([]);
+        if (startTime && endTime && startTime.getTime() < endTime.getTime())
+            setEndTime(undefined);
+
+        let now = new Date();
+
+        //Disabling past dates
+        if (startDate && startDate.getDate() < now.getDate()) {
+            newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]);
+            //setDeactivatedStartTimes([[new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]]);
+        }
+
+        if (endDate && endDate.getDate() < now.getDate()) {
+            newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]);
+            //setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]]);
+        }
+
+        if (startDate && startDate.getDate() == now.getDate())
+            setDeactivatedStartTimes([[new Date('2024-06-15T00:00'), now]]);
+
+        if (endDate && endDate.getDate() == now.getDate()) {
+            newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), now]);
+            //setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), now]]);
+        }
+
+
         //deactivating to not allow end date before start date
         if (startTime && endDate?.getDate() == startDate?.getDate()) {
-            setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), startTime]]);
+            newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), startTime]);
+            //setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), startTime]]);
         }
         else if (endDate && startDate && endDate?.getDate() < startDate?.getDate()) {
-            setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]]);
+            setEndTime(undefined);
+            newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]);
+            //setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]]);
         }
         else {
             setDeactivatedEndTimes([]);
         }
 
-        let now = new Date();
+        //Setting date's time
+        if (startTime && startDate) {
+            startDate.setHours(startTime.getHours());
+            startDate.setMinutes(startTime.getMinutes());
+        }
+        if (endTime && endDate) {
+            endDate.setHours(endTime.getHours());
+            endDate.setMinutes(endTime.getMinutes());
+        }
 
-        if (startDate && startDate.getDate() < now.getDate()) 
-            setDeactivatedStartTimes([[new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]]);
-        
-        if (endDate && endDate.getDate() < now.getDate())
-            setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]]);
-
-        if(startDate && startDate.getDate() == now.getDate())
-            setDeactivatedStartTimes([[new Date('2024-06-15T00:00'), now]]);
-        
-        if(endDate && endDate.getDate() == now.getDate())
-            setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), now]]);
+        //Making sure that end date can be selected max maxReservedHours after start date
+        if (startTime && props.maxReservedHours) {
+            let endTimeLimit = new Date(startTime.getTime() + (props.maxReservedHours + 1) * 60 * 60 * 1000);
+            if (endTimeLimit) {
+                console.log(endTimeLimit)
+                setDeactivatedEndTimes([[endTimeLimit, new Date('2024-06-15T23:30')]]);
+            }
+        }
 
         //Adding reserved work spaces as deactivated
         if (workSpaceReservations && workSpaceReservations.length > 0) {
@@ -63,7 +97,7 @@ function ReservationFormModal(props: ReservationFormModalProps) {
                 let reservationStartTime = new Date(reservation.startTime);
                 let reservationEndTime = new Date(reservation.endTime);
 
-                if (reservationStartTime.getDate() == startDate.getDate()) {
+                if (startDate && reservationStartTime.getDate() == startDate.getDate()) {
 
                     //Due to time zone difference, we need to decrease the time by two hours
                     reservationStartTime.setHours(reservationStartTime.getHours() - 2);
@@ -74,12 +108,12 @@ function ReservationFormModal(props: ReservationFormModalProps) {
                 return [];
             });
 
+
             let newDeactivatedEndTimes: Array<Date | Date[]> = workSpaceReservations.map((reservation: ReservationDataProps) => {
                 let reservationStartTime = new Date(reservation.startTime);
                 let reservationEndTime = new Date(reservation.endTime);
 
-                if (reservationEndTime.getDate() == endDate.getDate()) {
-                    console.log("OK")
+                if (endDate && reservationEndTime.getDate() == endDate.getDate()) {
                     //Due to time zone difference, we need to decrease the time by two hours
                     reservationStartTime.setHours(reservationStartTime.getHours() - 1);
                     reservationEndTime.setHours(reservationEndTime.getHours() - 2);
@@ -92,9 +126,8 @@ function ReservationFormModal(props: ReservationFormModalProps) {
             //Adding deactivated times
             setDeactivatedStartTimes((prev) => prev ? [...prev, ...newDeactivatedStartTimes] : newDeactivatedStartTimes);
             setDeactivatedEndTimes((prev) => prev ? [...prev, ...newDeactivatedEndTimes] : newDeactivatedEndTimes);
-
-
         }
+        setDeactivatedEndTimes((prev) => prev ? [...prev, ...newDeactivatedEndTimes] : newDeactivatedEndTimes);
     }, [startTime, endDate, startDate, workSpaceReservations]);
 
 
@@ -215,7 +248,7 @@ function ReservationFormModal(props: ReservationFormModalProps) {
             toast.error("Start and End date are required");
             result = false;
         }
-        if (startDate.getTime() >= endDate.getTime()) {
+        if (startDate && endDate && startDate.getTime() >= endDate.getTime()) {
             toast.error("Start date must be before end date");
             result = false;
         }
@@ -276,6 +309,8 @@ function ReservationFormModal(props: ReservationFormModalProps) {
                                                 showIcon
                                                 selected={startDate}
                                                 onChange={(date) => (date) ? handleStartDateChange(date) : null}
+                                                minDate={new Date()}
+                                                className="border-2 border-black rounded-lg mb-2 shadow-sm"
                                             />
                                             <TimePicker
                                                 deactivatedTimes={deactivatedStartTimes}
@@ -290,6 +325,8 @@ function ReservationFormModal(props: ReservationFormModalProps) {
                                                 showIcon
                                                 selected={endDate}
                                                 onChange={(date) => (date) ? handleEndDateChange(date) : null}
+                                                minDate={new Date()}
+                                                className="border-2 border-black rounded-lg mb-2 shadow-sm"
                                             />
                                             <TimePicker
                                                 minuteInterval={60}
@@ -298,7 +335,7 @@ function ReservationFormModal(props: ReservationFormModalProps) {
                                                 onChange={handleEndTimeChange}
                                             />
                                         </div>
-                                    </div>:
+                                    </div> :
                                     <p className="text-center font-bold">Select work space before choosing date and time.</p>
                             }
 
@@ -328,10 +365,19 @@ function ReservationFormModal(props: ReservationFormModalProps) {
                         if (validateForm()) {
                             toggleModal();
                             (props.onReservationSubmit && reservationData) ? props.onReservationSubmit(reservationData) : null
-                            setReservationData({endTime: new Date(), startTime: new Date(), name: "", user: "", workspace: ""})
+                            setReservationData({ endTime: new Date(), startTime: new Date(), name: "", user: "", workspace: "" })
+                            setStartDate(undefined);
+                            setEndDate(undefined);
+                            setStartTime(undefined);
+                            setEndTime(undefined);
                         }
                     }}>Submit</Button>
-                    <Button color="secondary" onClick={()=>{toggleModal();setReservationData({endTime: new Date(), startTime: new Date(), name: "", user: "", workspace: ""})}}>Cancel</Button>
+                    <Button color="secondary" onClick={() => {
+                        toggleModal(); setReservationData({ endTime: new Date(), startTime: new Date(), name: "", user: "", workspace: "" }); setStartDate(undefined);
+                        setEndDate(undefined);
+                        setStartTime(undefined);
+                        setEndTime(undefined);
+                    }}>Cancel</Button>
                 </ModalFooter>
             </Modal>
         </>

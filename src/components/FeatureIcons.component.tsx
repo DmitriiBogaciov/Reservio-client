@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaBeer, FaWifi, FaParking, FaCarrot } from "react-icons/fa";
+import { FaBeer, FaWifi, FaParking, FaHamburger } from "react-icons/fa";
 
 interface FeatureIconProps {
 
@@ -26,7 +26,7 @@ const FeatureIconsComponent = (props: FeatureIconProps) => {
                         case "drink":
                             return <FaBeer key={index} size={20} />;
                         case "food":
-                            return <FaCarrot key={index} size={20} />;
+                            return <FaHamburger key={index} size={20} />;
                         default:
                             return null;
                     }
