@@ -7,6 +7,7 @@ import TimePicker from "@/components/TimePicker";
 import { LoadingStateProps } from "@/props/LoadingState.props";
 import { ReservationFormModalProps } from "@/props/ReservationFormModal.props";
 import { toast } from "react-toastify";
+import { start } from "repl";
 
 
 const apiUrl = process.env.NEXT_PUBLIC_RESERVIO_API;
@@ -14,7 +15,7 @@ const apiUrl = process.env.NEXT_PUBLIC_RESERVIO_API;
 function ReservationFormModal(props: ReservationFormModalProps) {
     const [modalOpen, setModalOpen] = useState(false);
     const [workSpaceReservations, setWorkSpaceReservations] = useState<Array<ReservationDataProps>>([]);
-    const [reservationData, setReservationData] = useState<ReservationDataProps>({ name: "", startTime: new Date(), endTime: new Date() });
+    const [reservationData, setReservationData] = useState<ReservationDataProps>({ name: "", startTime: new Date(), endTime: new Date(), active:false });
 
 
 
@@ -29,7 +30,7 @@ function ReservationFormModal(props: ReservationFormModalProps) {
 
 
     useEffect(() => {
-        let newDeactivatedEndTimes = [];
+        let newDeactivatedEndTimes: (Date | Date[])[] = [];
         setDeactivatedEndTimes([]);
         setDeactivatedStartTimes([]);
         if (startTime && endTime && startTime.getTime() < endTime.getTime())
@@ -38,31 +39,31 @@ function ReservationFormModal(props: ReservationFormModalProps) {
         let now = new Date();
 
         //Disabling past dates
-        if (startDate && startDate.getDate() < now.getDate()) {
+        if (startDate && startDate.getDate() < now.getDate() && startDate.getMonth() == now.getMonth() && startDate.getFullYear() == now.getFullYear()) {
             newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]);
             //setDeactivatedStartTimes([[new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]]);
         }
 
-        if (endDate && endDate.getDate() < now.getDate()) {
+        if (endDate && endDate.getTime() < now.getTime()) {
             newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]);
             //setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]]);
         }
 
-        if (startDate && startDate.getDate() == now.getDate())
+        if (startDate && startDate.getDate() == now.getDate() && startDate.getMonth() == now.getMonth() && startDate.getFullYear() == now.getFullYear())
             setDeactivatedStartTimes([[new Date('2024-06-15T00:00'), now]]);
 
-        if (endDate && endDate.getDate() == now.getDate()) {
+        if (endDate && endDate.getDate() == now.getDate() && endDate.getMonth() == now.getMonth() && endDate.getFullYear() == now.getFullYear()){
             newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), now]);
             //setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), now]]);
         }
 
 
         //deactivating to not allow end date before start date
-        if (startTime && endDate?.getDate() == startDate?.getDate()) {
+        if (startTime && endDate?.getDate() == startDate?.getDate() && endDate?.getMonth() == startDate?.getMonth() && endDate?.getFullYear() == startDate?.getFullYear()) {
             newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), startTime]);
             //setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), startTime]]);
         }
-        else if (endDate && startDate && endDate?.getDate() < startDate?.getDate()) {
+        else if (endDate && startDate && endDate?.getTime() < startDate?.getTime()) {
             setEndTime(undefined);
             newDeactivatedEndTimes.push([new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]);
             //setDeactivatedEndTimes([[new Date('2024-06-15T00:00'), new Date('2024-06-15T23:30')]]);
@@ -365,7 +366,7 @@ function ReservationFormModal(props: ReservationFormModalProps) {
                         if (validateForm()) {
                             toggleModal();
                             (props.onReservationSubmit && reservationData) ? props.onReservationSubmit(reservationData) : null
-                            setReservationData({ endTime: new Date(), startTime: new Date(), name: "", user: "", workspace: "" })
+                            setReservationData({ endTime: new Date(), startTime: new Date(), name: "", user: "", workspace: "", active: false });
                             setStartDate(undefined);
                             setEndDate(undefined);
                             setStartTime(undefined);
@@ -373,7 +374,7 @@ function ReservationFormModal(props: ReservationFormModalProps) {
                         }
                     }}>Submit</Button>
                     <Button color="secondary" onClick={() => {
-                        toggleModal(); setReservationData({ endTime: new Date(), startTime: new Date(), name: "", user: "", workspace: "" }); setStartDate(undefined);
+                        toggleModal(); setReservationData({ endTime: new Date(), startTime: new Date(), name: "", user: "", workspace: "", active: false }); setStartDate(undefined);
                         setEndDate(undefined);
                         setStartTime(undefined);
                         setEndTime(undefined);

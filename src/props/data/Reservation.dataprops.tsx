@@ -4,6 +4,7 @@ interface ReservationDataProps
     user?:string,
     workspace?:string,
     password?:string,
+    active:boolean,
     startTime:Date,
     endTime:Date
 }

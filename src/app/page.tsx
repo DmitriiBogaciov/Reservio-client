@@ -96,19 +96,17 @@ export default function Home() {
 
     <div>
       <div className="md:flex block justify-evenly">
-        <div className="md:w-[650px] w-full mt-4">
-          <TextCard>
+        <div className="md:w-[650px] w-full mt-20">
             {
               (loadingState === "pending") ? <LoadingComponent text="Loading work places..." /> :
                 <div>
-                  <h1>Available work places:</h1>
+                  <h2>Available work places:</h2>
                   <div className="md:flex block mb-4">
                     <SearchBar placeHolder="Search for work place" onSearch={searchBarHandler}></SearchBar>
                   </div>
                   <List emptyText="No work places were found." items={searchedWorkAreaCards} />
                 </div>
             }
-          </TextCard>
         </div>
         <div className="md:max-w-[50%] w-full md:mt-28 lg:ml-24 md:ml-8 border-t-[2px] pt-6 mt-6 md:p-0">
 
