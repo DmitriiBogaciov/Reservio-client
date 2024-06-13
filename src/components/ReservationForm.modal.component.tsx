@@ -29,7 +29,7 @@ function ReservationFormModal(props: ReservationFormModalProps) {
 
 
     useEffect(() => {
-        let newDeactivatedEndTimes = [];
+        let newDeactivatedEndTimes: (Date | Date[])[] = [];
         setDeactivatedEndTimes([]);
         setDeactivatedStartTimes([]);
         if (startTime && endTime && startTime.getTime() < endTime.getTime())

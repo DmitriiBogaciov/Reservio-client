@@ -70,15 +70,9 @@ export default function Page() {
       <h1>Q&A:</h1>
       <div>
         <ToggleList title="How to activate reservation?" list_items={[
-          { label: "1. Scan a QR code on a workspace that you reserved.", value: "1" },
+          { label: "1. Scan a QR code at a workspace that you reserved.", value: "1" },
           { label: "2. You will be redirected to the activation page of reservation where you enter the activation code that you received in your email or during your reservation registration.", value: "Activate reservation" },
           { label: "3. Click on Activate reservation and enjoy your stay", value: "Activate reservation" }]
-        } is_open={false}>
-        </ToggleList>
-      </div>
-      <div className="mt-4">
-        <ToggleList title="Can I make reservation witout using web application?" list_items={[
-          { label: "Yes...", value: "1" }]
         } is_open={false}>
         </ToggleList>
       </div>
@@ -114,11 +108,10 @@ export default function Page() {
         <Modal isOpen={reservation !== undefined} onClose={() => setReservation(undefined)}>
           <div className="p-4">
             <h3>Reservation details</h3>
-            <p>Workspace name: <span className="font-bold">{reservation?.name}</span></p>
+            <p>Reservation name: <span className="font-bold">{reservation?.name}</span></p>
             <p>Reservation code: <span>{reservation?.password}</span></p>
             <p>Start date:<span className="font-bold">{reservation?.startTime ? new Date(reservation?.startTime).toLocaleString() : "-"}</span> </p>
             <p>End date:<span className="font-bold">{reservation?.endTime ? new Date(reservation?.endTime).toLocaleString() : "-"}</span> </p>
-            <p>Workspace name:<span className="font-bold">{reservation?.workspace} </span></p>
             <p>User: <span className="font-bold">{reservation?.user}</span> </p>
           </div>
           <ModalFooter>
